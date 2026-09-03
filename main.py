@@ -16,11 +16,13 @@ class Bank:
     except Exception as err:
         print(f"An error occures as {err}")
 
+    # Update data in data.json file
     @classmethod
     def __update(cls):
         with open(cls.database, "w") as fs:
             fs.write(json.dumps(Bank.data))
 
+    # Generate Account Number
     @classmethod
     def __generateAccountNumber(cls):
         alpha = random.choices(string.ascii_letters, k=4)
@@ -30,13 +32,14 @@ class Bank:
         random.shuffle(id)
         return "".join(id)
 
+    # Create Account
     def createAccount(self):
         info = {
             "name": input("Enter your name: "),
             "age": int(input("Enter your age: ")),
             "email": input("Enter your email: "),
             "pin": int(input("Enter your pin: ")),
-            "accountNo": Bank.__generateAccountNumber(),
+            "accountNo.": Bank.__generateAccountNumber(),
             "balance": 0,
         }
         if info["age"] < 18:
@@ -52,6 +55,30 @@ class Bank:
             Bank.data.append(info)
             Bank.__update()
 
+    # Deposit Money
+    def depositMoney(self):
+        accNumber = input("Please tell your account number: ")
+        pin = int(input("Please tell your pin: "))
+        userData = [
+            i for i in Bank.data if i["accountNo."] == accNumber and i["pin"] == pin
+        ]
+        if not userData:
+            print("Sorry! No account found of this account number")
+        else:
+            amount = int(input("Enter amount you want to deposit: "))
+            if amount > 100000:
+                print("Sorry the amount is too much you can deposit below 1 lakh")
+            elif amount < 0:
+                print("Enter valid amount")
+            else:
+                userData[0]["balance"] += amount
+                Bank.__update()
+                print("Amount deposited successfully!")
+
+    # Withdraw Money 
+    def withdrawMoney():
+        accNumber = input("Please enter your account number: ")
+        pin = input('Please enter your')
 
 user = Bank()
 
@@ -66,3 +93,9 @@ check = int(input("Please enter your response: "))
 
 if check == 1:
     user.createAccount()
+
+if check == 2:
+    user.depositMoney()
+    
+if check == 3:
+    user.withdrawMoney()
