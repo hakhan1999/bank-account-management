@@ -75,10 +75,27 @@ class Bank:
                 Bank.__update()
                 print("Amount deposited successfully!")
 
-    # Withdraw Money 
-    def withdrawMoney():
+    # Withdraw Money
+    def withdrawMoney(self):
         accNumber = input("Please enter your account number: ")
-        pin = input('Please enter your')
+        pin = int(input("Please enter your pin: "))
+        userData = [
+            i for i in Bank.data if i["accountNo."] == accNumber and i["pin"] == pin
+        ]
+
+        if not userData:
+            print("Sorry! No account found of this account number")
+        else:
+            amount = int(input("Enter amount you want to withdraw: "))
+            if amount < amount:
+                print("Sorry! you dont have that much money")
+            elif amount < 0:
+                print("Enter valid amount")
+            else:
+                userData[0]["balance"] -= amount
+                Bank.__update()
+                print("Amount withdrawed successfully!")
+
 
 user = Bank()
 
@@ -96,6 +113,6 @@ if check == 1:
 
 if check == 2:
     user.depositMoney()
-    
+
 if check == 3:
     user.withdrawMoney()
